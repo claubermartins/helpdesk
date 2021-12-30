@@ -1,15 +1,33 @@
 package com.clauber.helpdesk.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import com.clauber.helpdesk.domain.enums.Prioridade;
 import com.clauber.helpdesk.domain.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class Chamado {
+@Entity
+public class Chamado implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat(pattern = "dd/MM/yy")
 	private LocalDate dataAbertura = LocalDate.now();
+	@JsonFormat(pattern = "dd/MM/yy")
 	private LocalDate dataFechamento;
+	
 	private Prioridade prioridade;
 	private Status status;
 	private String titulo;
@@ -21,7 +39,13 @@ public class Chamado {
 	}
 	
 	/*O chamado é dependente de ter um técnico e um cliente*/
+	/*muitos chamados para um técnico*/
+	@ManyToOne
+	@JoinColumn(name = "tecnico_id")
 	private Tecnico tecnico;
+	
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	
 	/*Construtor*/

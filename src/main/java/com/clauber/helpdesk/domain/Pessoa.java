@@ -1,20 +1,45 @@
 package com.clauber.helpdesk.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.clauber.helpdesk.domain.enums.Perfil;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-public abstract class Pessoa {
+import com.clauber.helpdesk.domain.enums.Perfil;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@Entity
+public abstract class Pessoa implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
 	protected String nome;
+	
+	@Column(unique = true)
 	protected String cpf;
+	
+	@Column(unique = true)
 	protected String email;
 	protected String senha;
+	
+	@ElementCollection(fetch = FetchType.EAGER) /*esta anonação diz que a lista de perfis vem junto com o usuário*/
+	@CollectionTable(name = "PERFIS")
 	protected Set<Integer> perfis = new HashSet<>();
+	
+	@JsonFormat(pattern = "dd/MM/yy")
 	protected LocalDate dataCriacao = LocalDate.now();
 	
 	
