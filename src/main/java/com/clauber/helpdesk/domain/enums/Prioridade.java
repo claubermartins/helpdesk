@@ -2,7 +2,7 @@ package com.clauber.helpdesk.domain.enums;
 
 public enum Prioridade {
 	
-	ADMIN(0, "ROLE_ADMIN"), CLIENTE(1, "ROLE_CLIENTE"), TECNICO(2, "ROLE_TECNICO");
+	BAIXA(0, "BAIXA"), MEDIA(1, "MEDIA"), ALTA(2, "ALTA");
 	
 
 	private Integer codigo;
@@ -30,7 +30,7 @@ public enum Prioridade {
 				return x;
 			}
 		}
-		throw new IllegalArgumentException ("Perfil inválido");
+		throw new IllegalArgumentException ("Prioridade inválido");
 	}	
 
 }
