@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.clauber.helpdesk.domain.enums.Perfil;
 
@@ -13,9 +14,16 @@ public abstract class Pessoa {
 	protected String cpf;
 	protected String email;
 	protected String senha;
-	protected Set<Perfil> perfis = new HashSet<>();
+	protected Set<Integer> perfis = new HashSet<>();
 	protected LocalDate dataCriacao = LocalDate.now();
 	
+	
+	/*superclass*/
+	public Pessoa() {
+		super();
+		addPerfil(Perfil.CLIENTE);
+	}
+
 	/*Construtor*/
 	public Pessoa(Integer id, String nome, String cpf, String email, String senha) {
 		super();
@@ -24,6 +32,7 @@ public abstract class Pessoa {
 		this.cpf = cpf;
 		this.email = email;
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE);
 	}
 	
 	/*Get and Set*/
@@ -68,11 +77,11 @@ public abstract class Pessoa {
 	}
 
 	public Set<Perfil> getPerfis() {
-		return perfis;
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 	}
 
-	public void setPerfis(Set<Perfil> perfis) {
-		this.perfis = perfis;
+	public void addPerfil(Perfil perfil) {
+		this.perfis.add(perfil.getCodigo());
 	}
 
 	public LocalDate getDataCriacao() {
