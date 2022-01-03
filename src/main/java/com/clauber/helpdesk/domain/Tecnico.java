@@ -7,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import com.clauber.helpdesk.domain.enums.Perfil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Tecnico extends Pessoa {
 	
 	/*Um tec para muitos chamados*/
+	@JsonIgnore /*protegendo contra serielização*/
 	@OneToMany(mappedBy = "tecnico")
 	private List<Chamado> chamados = new ArrayList<>();
 	
