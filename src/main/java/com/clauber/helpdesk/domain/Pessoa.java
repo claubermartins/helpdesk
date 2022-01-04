@@ -22,34 +22,33 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 public abstract class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
 	protected String nome;
-	
+
 	@Column(unique = true)
 	protected String cpf;
-	
+
 	@Column(unique = true)
 	protected String email;
 	protected String senha;
-	
-	@ElementCollection(fetch = FetchType.EAGER) /*esta anonação diz que a lista de perfis vem junto com o usuário*/
+
+	@ElementCollection(fetch = FetchType.EAGER) /* esta anonação diz que a lista de perfis vem junto com o usuário */
 	@CollectionTable(name = "PERFIS")
 	protected Set<Integer> perfis = new HashSet<>();
-	
+
 	@JsonFormat(pattern = "dd/MM/yy")
 	protected LocalDate dataCriacao = LocalDate.now();
-	
-	
-	/*superclass*/
+
+	/* superclass */
 	public Pessoa() {
 		super();
 		addPerfil(Perfil.CLIENTE);
 	}
 
-	/*Construtor*/
+	/* Construtor */
 	public Pessoa(Integer id, String nome, String cpf, String email, String senha) {
 		super();
 		this.id = id;
@@ -59,8 +58,8 @@ public abstract class Pessoa implements Serializable {
 		this.senha = senha;
 		addPerfil(Perfil.CLIENTE);
 	}
-	
-	/*Get and Set*/
+
+	/* Get and Set */
 	public Integer getId() {
 		return id;
 	}
@@ -116,8 +115,8 @@ public abstract class Pessoa implements Serializable {
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	
-	/*Hash and Equals*/
+
+	/* Hash and Equals */
 	@Override
 	public int hashCode() {
 		return Objects.hash(cpf, id);
@@ -134,5 +133,5 @@ public abstract class Pessoa implements Serializable {
 		Pessoa other = (Pessoa) obj;
 		return Objects.equals(cpf, other.cpf) && Objects.equals(id, other.id);
 	}
-	
+
 }
